@@ -20,7 +20,7 @@ test("verifyGuardWasm rejects bytes with a mismatched hash", async () => {
   const wrongBytes = new Uint8Array(PHASE1_ARTIFACT.wasmBytes);
   // Fill with a known pattern that won't match the pinned hash
   for (let i = 0; i < wrongBytes.length; i++) {
-    wrongBytes[i] = 0xAA;
+    wrongBytes[i] = 0xaa;
   }
 
   const verification = await verifyGuardWasm(wrongBytes, PHASE1_ARTIFACT.wasmHash);
@@ -41,7 +41,11 @@ test("verifyGuardWasm reference check", async () => {
 
 test("Pinned artifact hash is a valid SHA-256 hex string (64 characters)", () => {
   assert.ok(PHASE1_ARTIFACT.wasmHash.length > 0, "wasmHash should not be empty");
-  assert.strictEqual(PHASE1_ARTIFACT.wasmHash.length, 64, "wasmHash should be a 64-char hex string (SHA-256)");
+  assert.strictEqual(
+    PHASE1_ARTIFACT.wasmHash.length,
+    64,
+    "wasmHash should be a 64-char hex string (SHA-256)",
+  );
 });
 
 test("Pinned artifact byte length is the known size (39673 bytes)", () => {
@@ -59,10 +63,8 @@ test("checkArtifact type signature is correct", () => {
 
 test("artifact pin changes require checklist completion", () => {
   // This test documents the requirement from the checklist
-  const checklistPath = new URL(
-    "../docs/operations/artifact-pin-checklist.md",
-    import.meta.url,
-  ).pathname;
+  const checklistPath = new URL("../docs/operations/artifact-pin-checklist.md", import.meta.url)
+    .pathname;
 
   // Read the checklist and verify it defines the required items
   // (this is a documentation test, not a runtime assertion)
